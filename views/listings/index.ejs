@@ -1,0 +1,97 @@
+<% layout("/layouts/boilerplate") %>
+    <style>
+      #filters{
+        display:flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .filter{
+        text-align: center;
+        margin-right: 1.58rem;
+        margin-top: 2rem;
+        opacity: 0.85;
+        
+      }
+      .filter:hover{
+        opacity: 1;
+        cursor: pointer;
+      }
+      .filter p{
+        font-size: 0.8rem;
+      }
+      .tax-info{
+        display: none;
+      }
+      .tax-toggle{
+        border: 1px solid black;
+        border-radius: 1rem;
+        height: 3.25rem;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        margin-left: 1.1rem;
+      }
+    </style>
+    <div id="filters">
+      <% categories.forEach(category => { %>
+        <div class="filter" data-category="<%= category %>">
+          <div><i class="fa-solid fa-<%= getIconForCategory(category) %>"></i></div>
+          <p><%= category %></p>
+        </div>
+      <% }); %>
+    </div>
+    
+    <div id="listings-container" class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+      <% for(let listing of allListings){ %>
+        <div class="card col listing-card" data-category="<%= listing.category %>">
+          <a href="/listings/<%= listing._id%>" class="listing-link">
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem">
+            <div class="card-img-overlay"></div>
+            <div class="card-body my-3">
+              <p class="card-text">
+                <b><%= listing.title %></b><br/>
+                &#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>/night
+                <i class="tax-info"> &nbsp;+18% GST</i>
+              </p>
+            </div>
+          </a>
+        </div>
+      <% } %>
+    </div>
+    
+    <script>
+      const filters = document.querySelectorAll('.filter');
+      const listingsContainer = document.getElementById('listings-container');
+      const listings = listingsContainer.querySelectorAll('.listing-card');
+    
+      filters.forEach(filter => {
+        filter.addEventListener('click', () => {
+          // Remove active class from all filters
+          filters.forEach(f => f.classList.remove('active'));
+          // Add active class to clicked filter
+          filter.classList.add('active');
+    
+          const category = filter.dataset.category;
+          listings.forEach(listing => {
+            if (category === 'All' || listing.dataset.category === category) {
+              listing.style.display = '';
+            } else {
+              listing.style.display = 'none';
+            }
+          });
+        });
+      });
+    
+      // Your existing tax toggle script here
+      let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+      taxSwitch.addEventListener("click", () => {
+        let taxInfo = document.getElementsByClassName("tax-info");
+        for (info of taxInfo) {
+          if (info.style.display != "inline") {
+            info.style.display = "inline";
+          } else {
+            info.style.display = "none";
+          }
+        }
+      });
+    </script>
