@@ -2,6 +2,8 @@
 
 Globetrotter is a full-stack web application inspired by Airbnb, allowing users to list, browse, and review travel accommodations.
 
+
+
 ## Features
 
 - User authentication and authorization
@@ -13,6 +15,11 @@ Globetrotter is a full-stack web application inspired by Airbnb, allowing users 
 - Server-side rendering with EJS templating
 - RESTful API architecture
 - MongoDB database integration with Mongoose ODM
+
+## Future features 
+
+- Media queries for better responsiveness overall devices
+- Search filter based on country
 
 ## Technologies Used
 
